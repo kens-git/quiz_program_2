@@ -1,0 +1,12 @@
+#ifndef QUIZMODEL_GLOBAL_H
+#define QUIZMODEL_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(QUIZMODEL_LIBRARY)
+#  define QUIZMODELSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define QUIZMODELSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // QUIZMODEL_GLOBAL_H
