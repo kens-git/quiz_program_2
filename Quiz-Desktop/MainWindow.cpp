@@ -1,10 +1,7 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
 
-// TODO: remove debugging messages
-#include <QDebug>
 #include <QMessageBox>
-#include <QItemDelegate>
 
 #include "CategoryEntryModel.hpp"
 #include "CategoryListModel.hpp"
@@ -22,10 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     CategoryEntryModel* categoryEntryModel = new CategoryEntryModel(this);
-    QItemSelectionModel* categorySelectionModel = new QItemSelectionModel(categoryEntryModel, this);
     setCategoryEntryModel(categoryEntryModel);
-    // TODO: does this really need a selection model?
-    //setCategoryEntrySelectionModel(categorySelectionModel);
 
     CategoryListModel* categoryListModel = new CategoryListModel(this);
     setCategoryListModel(categoryListModel);
@@ -55,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->wrongButton->setEnabled(false);
     connect(ui->correctButton, &QPushButton::clicked, this, &MainWindow::correctAnswer);
     connect(ui->wrongButton, &QPushButton::clicked, this, &MainWindow::incorrectAnswer);
+
+    ui->numQuestionsLineEdit->setValidator(new QIntValidator(1, 99999, this));
 }
 
 MainWindow::~MainWindow() {
@@ -73,10 +69,6 @@ void MainWindow::setCategoryEntryModel(CategoryEntryModel *model) {
     ui->categoryTreeView->setModel(mCategoryEntryModel);
 }
 
-void MainWindow::setCategoryEntrySelectionModel(QItemSelectionModel *selectionModel) {
-    ui->categoryTreeView->setSelectionModel(selectionModel);
-}
-
 void MainWindow::setCategoryListModel(CategoryListModel *model) {
     mCategoryListModel = model;
     ui->newCategoryParentComboBox->setModel(mCategoryListModel);
@@ -86,10 +78,6 @@ void MainWindow::setCategoryListModel(CategoryListModel *model) {
 void MainWindow::setEntryModel(EntryModel *model) {
     mEntryModel = model;
     ui->selectEntryListView->setModel(mEntryModel);
-}
-
-void MainWindow::setEntrySelectionModel(QItemSelectionModel *selectionModel) {
-    ui->selectEntryListView->setSelectionModel(selectionModel);
 }
 
 void MainWindow::setQuestionModel(QuestionModel *model) {
@@ -142,12 +130,10 @@ void MainWindow::answerTextClicked() {
 }
 
 void MainWindow::addNewQuestion() {
-    // TODO: disable the Add New Question button if no entry is selected
     mQuestionModel->addNewQuestion();
 }
 
 void MainWindow::startNewQuiz() {
-    // TODO: actually check for a number (regex, maybe)
     if (ui->categoryTreeView->currentIndex() != QModelIndex() && ui->numQuestionsLineEdit->text() != "") {
         delete mQuizModel;
 

@@ -15,7 +15,8 @@ CategoryEntryModel::CategoryEntryModel(QObject* parent) :
 }
 
 CategoryEntryModel::~CategoryEntryModel() {
-    // TODO: probable memory leak
+    // TODO: memory leak, mRootCategory's children aren't being deleted.
+    // This won't run until the end of the program anyway, so it's not a vital fix
     delete mRootCategory;
     mRootCategory = nullptr;
 }
@@ -78,28 +79,6 @@ QModelIndex CategoryEntryModel::index(int row, int column, const QModelIndex &pa
         return QModelIndex();
 }
 
-bool CategoryEntryModel::insertColumns(int position, int columns, const QModelIndex &parent) {
-    bool success;
-
-    beginInsertColumns(parent, position, position + columns - 1);
-    success = mRootCategory->insertColumns(position, columns);
-    endInsertColumns();
-
-    return success;
-}
-
-// TODO: does CategoryEntryModel really need these methods?
-bool CategoryEntryModel::insertRows(int position, int rows, const QModelIndex &parent) {
-    TreeItem *parentItem = getItem(parent);
-    bool success;
-
-    beginInsertRows(parent, position, position + rows - 1);
-    success = parentItem->insertChildren(position, rows, mRootCategory->columnCount());
-    endInsertRows();
-
-    return success;
-}
-
 QModelIndex CategoryEntryModel::parent(const QModelIndex &index) const {
     if (!index.isValid())
         return QModelIndex();
@@ -113,47 +92,10 @@ QModelIndex CategoryEntryModel::parent(const QModelIndex &index) const {
     return createIndex(parentItem->childNumber(), 0, parentItem);
 }
 
-bool CategoryEntryModel::removeColumns(int position, int columns, const QModelIndex &parent) {
-    bool success;
-
-    beginRemoveColumns(parent, position, position + columns - 1);
-    success = mRootCategory->removeColumns(position, columns);
-    endRemoveColumns();
-
-    if (mRootCategory->columnCount() == 0)
-        removeRows(0, rowCount());
-
-    return success;
-}
-
-bool CategoryEntryModel::removeRows(int position, int rows, const QModelIndex &parent) {
-    TreeItem *parentItem = getItem(parent);
-    bool success = true;
-
-    beginRemoveRows(parent, position, position + rows - 1);
-    success = parentItem->removeChildren(position, rows);
-    endRemoveRows();
-
-    return success;
-}
-
 int CategoryEntryModel::rowCount(const QModelIndex &parent) const {
     TreeItem *parentItem = getItem(parent);
 
     return parentItem->childCount();
-}
-
-bool CategoryEntryModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    if (role != Qt::EditRole)
-        return false;
-
-    TreeItem *item = getItem(index);
-    bool result = item->setData(index.column(), value);
-
-    if (result)
-        emit dataChanged(index, index);
-
-    return result;
 }
 
 bool CategoryEntryModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) {

@@ -9,8 +9,6 @@ QuestionModel::QuestionModel(QObject *parent)
       mDatabase(DatabaseManager::instance())
 {
     mQuestions = new QVector<QPair<unsigned int, Question>>();
-    // TODO: look into a better way of keeping track of the current entry
-    // receiving it from the view as it's set might be better.
     mEntryName = "null";
 }
 
@@ -20,9 +18,12 @@ QuestionModel::~QuestionModel() {
 }
 
 QVariant QuestionModel::data(const QModelIndex &index, int role) const {
+    if (!index.isValid()) {
+        return QVariant();
+    }
+
     // TODO: why does this remove the checkboxes?
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        // TODO: check if index is valid
         if (index.column() == 0) {
             return mQuestions->at(index.row()).second.getQuestionText();
         }
@@ -67,8 +68,7 @@ int QuestionModel::rowCount(const QModelIndex &parent) const {
 }
 
 int QuestionModel::columnCount(const QModelIndex &parent) const {
-    // TODO: make this a constant
-    return 2;
+    return NUM_COLUMNS;
 }
 
 QVariant QuestionModel::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -99,9 +99,6 @@ void QuestionModel::addNewQuestion() {
         unsigned int id = mDatabase.mQuestionDAO.addQuestion(question.getQuestionText(), question.getAnswerText(), mEntryName);
         mQuestions->push_back(QPair<unsigned int, Question>(id, question));
         endInsertRows();
-    } else {
-        // TODO: actually do something about this
-        qDebug() << "QuestionModel::mEntryName not set";
     }
 }
 

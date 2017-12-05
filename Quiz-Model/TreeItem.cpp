@@ -128,8 +128,6 @@ TreeItem* TreeItem::find(const QVariant &item) {
             if (queue[0]->child(i)->data(0).toString() == item.toString()) {
                 found = true;
                 foundItem = queue[0]->child(i);
-                // TODO: remove this line, maybe
-                //queue[0]->child(i)->insertChild(queue[0]->child(i)->childCount(), query.value("name"));
                 break;
             }
 

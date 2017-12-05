@@ -23,11 +23,8 @@ class MainWindow : public QMainWindow {
         ~MainWindow();
 
         void setCategoryEntryModel(CategoryEntryModel* model);
-        void setCategoryEntrySelectionModel(QItemSelectionModel* selectionModel);
-
         void setCategoryListModel(CategoryListModel* model);
         void setEntryModel(EntryModel* model);
-        void setEntrySelectionModel(QItemSelectionModel* selectionModel);
         void setQuestionModel(QuestionModel* model);
 
     private:
@@ -49,6 +46,7 @@ class MainWindow : public QMainWindow {
         void quizTabClicked();
         void answerTextClicked();
         void addNewQuestion();
+        // TODO: remove question button
         void startNewQuiz();
 
         void correctAnswer();

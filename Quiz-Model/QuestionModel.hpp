@@ -31,6 +31,8 @@ class QuestionModel : public QAbstractTableModel {
         QVector<QPair<unsigned int, Question>>* mQuestions;
         // value of the currently open entry
         QString mEntryName;
+
+        const unsigned int NUM_COLUMNS = 2;
 };
 
 #endif // QUESTIONMODEL_HPP

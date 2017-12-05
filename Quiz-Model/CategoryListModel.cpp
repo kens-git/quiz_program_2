@@ -28,10 +28,18 @@ int CategoryListModel::rowCount(const QModelIndex &parent) const {
 }
 
 void CategoryListModel::insertCategory(const QString &name, const QString& parentName) {
-    beginInsertRows(QModelIndex(), 0, 0);
+    // TODO: this doesn't work, please use QStringListModel, future self
+    unsigned int index = 0;
+    for (unsigned int i = 0; i < mCategories->size(); i++) {
+        if (name >= mCategories->at(i)) {
+            index = i;
+        }
+    }
+
+    beginInsertRows(QModelIndex(), index, index);
     mDatabase.mCategoryDAO.addCategory(Category(name, parentName));
     // TODO: have addCategory return true/false on success/failure, and don't insert the name if the query fails
-    mCategories->insert(0, name);
+    mCategories->insert(index, name);
     endInsertRows();
 }
 

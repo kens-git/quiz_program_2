@@ -20,13 +20,6 @@ void EntryDAO::init() const {
         query.exec("CREATE TABLE entries (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT)");
 
         DatabaseManager::queryStatus(query);
-
-        //TODO: remove this
-        query.exec("INSERT INTO categories (name, category) VALUES ('asdf', 'Electronics')");
-        query.exec("INSERT INTO categories (name, category) VALUES ('asdf2', 'Electronics')");
-        query.exec("INSERT INTO categories (name, category) VALUES ('asdf3', 'Electronics')");
-        query.exec("INSERT INTO categories (name, category) VALUES ('asdf4', 'Electronics')");
-        query.exec("INSERT INTO categories (name, category) VALUES ('asdf5', 'Electronics')");
     }
 }
 

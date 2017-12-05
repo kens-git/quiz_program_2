@@ -12,7 +12,6 @@ class QuizModel {
         QuizModel(const QString& entry, unsigned int numQuestions);
         ~QuizModel();
 
-        // TODO: make const methods const
         Question nextQuestion();
         void popQuestion();
 

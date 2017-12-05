@@ -2,8 +2,6 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
-// TODO: figure out why bindValue won't work without this
-#include <QVariant>
 #include <QQueue>
 
 #include "DatabaseManager.hpp"
@@ -25,14 +23,6 @@ void CategoryDAO::init() const {
 
         query.exec("INSERT INTO categories (name, parent_category) VALUES ('Root', 'null')");
         DatabaseManager::queryStatus(query);
-        // TODO: remove this
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Computer Science', 'Root')");
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Biology', 'Root')");
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Programming', 'Computer Science')");
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Algorithms', 'Programming')");
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Compilers and Interpreters', 'Computer Science')");
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Electronics', 'Root')");
-//        query.exec("INSERT INTO categories (name, parent_category) VALUES ('Circuit Analysis', 'Electronics')");
     }
 }
 
