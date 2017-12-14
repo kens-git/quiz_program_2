@@ -10,12 +10,8 @@ class DatabaseManager;
 
 class CategoryListModel : public QStringListModel {
     public:
-        CategoryListModel(QObject* parent);
+        CategoryListModel(QObject* parent = nullptr);
         ~CategoryListModel();
-
-        // TODO: remove these, probably don't need them, use setStringList()
-        QVariant data(const QModelIndex &index, int role) const override;
-        int rowCount(const QModelIndex &parent) const override;
 
         void insertCategory(const QString& name, const QString& parentName);
         bool hasCategory(const QString& name);

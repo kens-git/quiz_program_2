@@ -46,7 +46,7 @@ class MainWindow : public QMainWindow {
         void quizTabClicked();
         void answerTextClicked();
         void addNewQuestion();
-        // TODO: remove question button
+        void removeQuestion();
         void startNewQuiz();
 
         void correctAnswer();

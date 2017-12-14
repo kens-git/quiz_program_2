@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include <QMessageBox>
+#include <QItemSelectionModel>
 
 #include "CategoryEntryModel.hpp"
 #include "CategoryListModel.hpp"
@@ -42,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->answerTextButton, &QPushButton::clicked, this, &MainWindow::answerTextClicked);
 
     connect(ui->addNewQuestionButton, &QPushButton::clicked, this, &MainWindow::addNewQuestion);
+    connect(ui->removeQuestionButton, &QPushButton::clicked, this, &MainWindow::removeQuestion);
 
     connect(ui->startNewQuizButton, &QPushButton::clicked, this, &MainWindow::startNewQuiz);
 
@@ -96,6 +98,8 @@ void MainWindow::addNewCategory() {
 
     mCategoryListModel->insertCategory(ui->addNewCategoryLineEdit->text(),
                                        ui->newCategoryParentComboBox->currentText());
+    ui->newCategoryParentComboBox->setCurrentIndex(0);
+    ui->newEntryParentComboBox->setCurrentIndex(0);
 
     ui->addNewCategoryLineEdit->setText(QString(""));
 }
@@ -131,6 +135,10 @@ void MainWindow::answerTextClicked() {
 
 void MainWindow::addNewQuestion() {
     mQuestionModel->addNewQuestion();
+}
+
+void MainWindow::removeQuestion() {
+    mQuestionModel->removeQuestion(ui->questionsTableView->currentIndex());
 }
 
 void MainWindow::startNewQuiz() {

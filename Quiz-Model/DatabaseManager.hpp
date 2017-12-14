@@ -10,7 +10,7 @@ class QSqlQuery;
 #include "EntryDAO.hpp"
 #include "QuestionDAO.hpp"
 
-const QString mDB_FILENAME = "quiz_database.db";
+const QString DB_FILENAME = "quiz_database.db";
 
 class DatabaseManager {
     public:
@@ -20,7 +20,7 @@ class DatabaseManager {
         static void queryStatus(const QSqlQuery& query);
 
     protected:
-        DatabaseManager(const QString& filepath = mDB_FILENAME);
+        DatabaseManager(const QString& filepath = DB_FILENAME);
         DatabaseManager& operator=(const DatabaseManager& rhs);
 
     private:

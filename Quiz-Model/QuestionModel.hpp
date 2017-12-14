@@ -11,7 +11,7 @@ class DatabaseManager;
 
 class QuestionModel : public QAbstractTableModel {
     public:
-        QuestionModel(QObject* parent);
+        QuestionModel(QObject* parent = nullptr);
         ~QuestionModel();
 
         QVariant data(const QModelIndex &index, int role) const override;
@@ -23,6 +23,7 @@ class QuestionModel : public QAbstractTableModel {
 
         void addNewQuestion();
         QModelIndex insertQuestion(const QString& question, const QString& answer);
+        void removeQuestion(const QModelIndex& index);
         // sets mEntryName and loads the applicable questions
         void setCurrentEntry(const QString& entryName);
 

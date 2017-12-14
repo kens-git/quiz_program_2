@@ -11,6 +11,9 @@ QuizModel::QuizModel(const QString& entry, unsigned int numQuestions)
     mIncorrectAnswers = 0;
     mWrongQuestions = new QStringList();
 
+    if (mNumQuestions == 0) {
+        mNumQuestions = numLoadedQuestions();
+    }
     if (numLoadedQuestions() < mNumQuestions) {
         mNumQuestions = numLoadedQuestions();
     }

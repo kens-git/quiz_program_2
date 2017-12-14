@@ -7,7 +7,7 @@ CategoryListModel::CategoryListModel(QObject *parent)
       mDatabase(DatabaseManager::instance()),
       mCategories(mDatabase.mCategoryDAO.getCategoriesAsList())
 {
-
+    setStringList(*mCategories);
 }
 
 CategoryListModel::~CategoryListModel() {
@@ -15,20 +15,7 @@ CategoryListModel::~CategoryListModel() {
     mCategories = nullptr;
 }
 
-QVariant CategoryListModel::data(const QModelIndex &index, int role) const {
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    return mCategories->at(index.row());
-}
-
-int CategoryListModel::rowCount(const QModelIndex &parent) const {
-    return mCategories->size();
-}
-
 void CategoryListModel::insertCategory(const QString &name, const QString& parentName) {
-    // TODO: this doesn't work, please use QStringListModel, future self
     unsigned int index = 0;
     for (unsigned int i = 0; i < mCategories->size(); i++) {
         if (name >= mCategories->at(i)) {
@@ -36,11 +23,11 @@ void CategoryListModel::insertCategory(const QString &name, const QString& paren
         }
     }
 
-    beginInsertRows(QModelIndex(), index, index);
     mDatabase.mCategoryDAO.addCategory(Category(name, parentName));
     // TODO: have addCategory return true/false on success/failure, and don't insert the name if the query fails
     mCategories->insert(index, name);
-    endInsertRows();
+
+    setStringList(*mCategories);
 }
 
 bool CategoryListModel::hasCategory(const QString &name) {

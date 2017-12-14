@@ -13,7 +13,7 @@ class DatabaseManager;
 // TODO: fix that invalid index error when switching tabs
 class QUIZMODELSHARED_EXPORT CategoryEntryModel : public QAbstractItemModel {
     public:
-        CategoryEntryModel(QObject* parent);
+        CategoryEntryModel(QObject* parent = nullptr);
         ~CategoryEntryModel();
 
         QVariant data(const QModelIndex &index, int role) const override;

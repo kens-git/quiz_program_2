@@ -16,7 +16,7 @@ CategoryEntryModel::CategoryEntryModel(QObject* parent) :
 
 CategoryEntryModel::~CategoryEntryModel() {
     // TODO: memory leak, mRootCategory's children aren't being deleted.
-    // This won't run until the end of the program anyway, so it's not a vital fix
+    // This won't run until the end of the program, anyway, so it's not a vital fix
     delete mRootCategory;
     mRootCategory = nullptr;
 }

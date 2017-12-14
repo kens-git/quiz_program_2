@@ -3,10 +3,21 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QFile>
 #include <QDebug>
 
 DatabaseManager& DatabaseManager::instance() {
+#if defined(Q_OS_ANDROID)
+    // Overwrite the previous version of the database to ensure it's up-to-date with the current db version
+    QFile file("./" + DB_FILENAME);
+    file.remove();
+    QFile::copy(":/" + DB_FILENAME, "./" + DB_FILENAME);
+    QFile::setPermissions("./" + DB_FILENAME, QFile::WriteOwner | QFile::ReadOwner);
+
+    static DatabaseManager singleton(DB_FILENAME);
+#else
     static DatabaseManager singleton;
+#endif
     return singleton;
 }
 
@@ -26,14 +37,6 @@ DatabaseManager::DatabaseManager(const QString &filepath)
     mDatabase->open();
 
     QSqlQuery query(*mDatabase);
-
-    if (!mDatabase->contains("entries")) {
-        query.exec("CREATE TABLE entries (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT)");
-    }
-    if (!mDatabase->contains("questions")) {
-        query.exec("CREATE TABLE questions (id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "question_text TEXT, answer_text TEXT, book TEXT");
-    }
 
     mCategoryDAO.init();
     mEntryDAO.init();

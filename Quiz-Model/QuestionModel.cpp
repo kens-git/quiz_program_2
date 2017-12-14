@@ -22,7 +22,6 @@ QVariant QuestionModel::data(const QModelIndex &index, int role) const {
         return QVariant();
     }
 
-    // TODO: why does this remove the checkboxes?
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if (index.column() == 0) {
             return mQuestions->at(index.row()).second.getQuestionText();
@@ -104,6 +103,18 @@ void QuestionModel::addNewQuestion() {
 
 QModelIndex QuestionModel::insertQuestion(const QString &question, const QString &answer) {
 
+}
+
+void QuestionModel::removeQuestion(const QModelIndex& index) {
+    if (!index.isValid()) {
+        return;
+    }
+
+    mDatabase.mQuestionDAO.removeQuestion(mQuestions->at(index.row()).first);
+
+    beginRemoveRows(QModelIndex(), index.row(), index.row());
+    mQuestions->remove(index.row());
+    endRemoveRows();
 }
 
 void QuestionModel::setCurrentEntry(const QString &entryName) {

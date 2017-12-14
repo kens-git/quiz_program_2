@@ -1,13 +1,14 @@
 #ifndef QUIZMODEL_HPP
 #define QUIZMODEL_HPP
 
+#include <QObject>
 #include <QStringList>
 #include <QVector>
 
 #include "Question.hpp"
 class DatabaseManager;
 
-class QuizModel {
+class QuizModel : QObject {
     public:
         QuizModel(const QString& entry, unsigned int numQuestions);
         ~QuizModel();

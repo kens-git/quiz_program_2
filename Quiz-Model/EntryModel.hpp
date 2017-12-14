@@ -5,13 +5,12 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QObject>
 
 class DatabaseManager;
 
 class EntryModel : public QStringListModel {
     public:
-        EntryModel(QObject* parent);
+        EntryModel(QObject* parent = nullptr);
         ~EntryModel();
 
         void insertEntry(const QString& name, const QString& category);

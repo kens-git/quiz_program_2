@@ -16,7 +16,7 @@ class QuestionDAO {
         unsigned int addQuestion(const QString& question, const QString& answer, const QString& entryName) const;
         void updateQuestionText(const QString& question, unsigned int id) const;
         void updateAnswerText(const QString& answer, unsigned int id) const;
-        void removeQuestion(const QString& question, const QString& entryName) const;
+        void removeQuestion(unsigned int id) const;
 
         QVector<QPair<unsigned int, Question>>* getQuestions(const QString& entryName) const;
         // fetches the questions for a particular category/entry

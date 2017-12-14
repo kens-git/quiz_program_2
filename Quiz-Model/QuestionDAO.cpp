@@ -59,12 +59,11 @@ void QuestionDAO::updateAnswerText(const QString &answer, unsigned int id) const
     DatabaseManager::queryStatus(query);
 }
 
-void QuestionDAO::removeQuestion(const QString &question, const QString& entryName) const {
+void QuestionDAO::removeQuestion(unsigned int id) const {
     QSqlQuery query(mDatabase);
 
-    query.prepare("DELETE FROM questions WHERE question = (:question) AND entry_name = (:entry_name)");
-    query.bindValue(":question", question);
-    query.bindValue(":entry_name", entryName);
+    query.prepare("DELETE FROM questions WHERE id = (:id)");
+    query.bindValue(":id", id);
 
     query.exec();
     DatabaseManager::queryStatus(query);
