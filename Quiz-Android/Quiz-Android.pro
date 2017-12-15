@@ -34,9 +34,6 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$[QT_INSTALL_LIBS]/libQt5Sql.so
 }
 
-RESOURCES += \
-    res.qrc
-
 DEPLOYMENT.files += quiz_database.db
 DEPLOYMENT.path = /
 
